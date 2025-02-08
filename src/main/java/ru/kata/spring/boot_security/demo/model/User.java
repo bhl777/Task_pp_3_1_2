@@ -25,18 +25,8 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @Transient
-    private String passwordConfirm;
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Role> roles;
-
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
 
     public Set<Role> getRoles() {
         return roles;
