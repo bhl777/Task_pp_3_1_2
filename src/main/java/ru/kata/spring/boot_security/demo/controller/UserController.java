@@ -52,8 +52,9 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    public String addUser(@ModelAttribute("user") User user) {
-        userService.saveUser(user);
+    public String addUser(@ModelAttribute("user") User user,
+                          @RequestParam("selectedIds") Long[] selectedIds) {
+        userService.saveUser(user,selectedIds);
 
         return "redirect:/users";
     }

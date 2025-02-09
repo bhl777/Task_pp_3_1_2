@@ -23,11 +23,14 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public List<User> getAll() {
 
+        List<User> users = userDao.getAll();
+        users.forEach(user -> user.getRoles().forEach(role ->
+                System.out.println("РОЛЬ ---- " + role.getName())));
         return userDao.getAll();
     }
 
-    public void saveUser(User user) {
-        userDao.add(user);
+    public void saveUser(User user, Long[] roles) {
+        userDao.add(user,roles);
     }
 
     public void deleteUser(Long id) {

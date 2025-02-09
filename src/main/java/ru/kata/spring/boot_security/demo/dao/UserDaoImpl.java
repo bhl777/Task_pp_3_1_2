@@ -11,7 +11,9 @@ import ru.kata.spring.boot_security.demo.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserDaoImpl implements UserDao{
@@ -21,8 +23,9 @@ public class UserDaoImpl implements UserDao{
     private EntityManager entityManager;
 
     @Override
-    public void add(User user) {
-        user.setRoles(Collections.singleton(new Role(2L)));
+    public void add(User user,Long[] roles) {
+
+        user.setRoles(newRoleSet(roles));
         user.setPassword(user.getPassword());
         entityManager.persist(user);
     }
@@ -47,5 +50,15 @@ public class UserDaoImpl implements UserDao{
         if (user != null) {
             entityManager.merge(user);
         }
+    }
+
+    private Set<Role> newRoleSet(Long[] roles) {
+
+        Set<Role> roleSet = new HashSet<>();
+
+            for(Long l : roles){
+                roleSet.add(new Role(l));
+            }
+            return roleSet;
     }
 }
