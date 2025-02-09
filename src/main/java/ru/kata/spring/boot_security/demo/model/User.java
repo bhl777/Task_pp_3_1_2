@@ -114,5 +114,6 @@ public class User implements UserDetails {
     }
 
     public void setPassword(String encode) {
+        password = encode;
     }
 }

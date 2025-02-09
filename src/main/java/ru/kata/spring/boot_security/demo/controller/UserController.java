@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,7 +54,13 @@ public class UserController {
 
     @PostMapping("/new")
     public String addUser(@ModelAttribute("user") User user,
-                          @RequestParam("selectedIds") Long[] selectedIds) {
+                          @RequestParam("selectedIds") Long[] selectedIds,
+                          BindingResult bindingResult) {
+        if (bindingResult.hasErrors() || user.getPassword() == null || user.getPassword().isEmpty()) {
+            // Верните пользователя на форму с сообщением об ошибке
+            return "redirect:/new?error=Password cannot be empty";
+        }
+
         userService.saveUser(user,selectedIds);
 
         return "redirect:/users";

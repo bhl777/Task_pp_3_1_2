@@ -9,4 +9,6 @@ public interface UserDao {
     void add(User user, Long[] roles);
     void deleteUser(Long id);
     void updateUser(Long id, User user);
+    User findByName(String name);
+    User findById(Long id);
 }
