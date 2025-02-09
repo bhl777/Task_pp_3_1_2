@@ -17,7 +17,10 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "name")
-    private String name;
+    private String username;
+
+    @Column
+    private String password;
 
     @Column(name = "surname")
     private String surname;
@@ -28,6 +31,16 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Role> roles;
 
+    public User() {
+    }
+
+    public User(Long id, String name, String surname, int age) {
+        this.id = id;
+        this.username = name;
+        this.surname = surname;
+        this.age = age;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -36,14 +49,9 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public User() {
-    }
-
-    public User(Long id, String name, String surname, int age) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
     public Long getId() {
@@ -54,12 +62,8 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getSurname() {
@@ -80,18 +84,13 @@ public class User implements UserDetails {
 
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
-
-    @Override
     public String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
     }
 
     @Override

@@ -16,15 +16,14 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
 
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public void add(User user,Long[] roles) {
-
+    public void add(User user, Long[] roles) {
         user.setRoles(newRoleSet(roles));
         user.setPassword(user.getPassword());
         entityManager.persist(user);
@@ -54,11 +53,12 @@ public class UserDaoImpl implements UserDao{
 
     private Set<Role> newRoleSet(Long[] roles) {
 
+
         Set<Role> roleSet = new HashSet<>();
 
-            for(Long l : roles){
-                roleSet.add(new Role(l));
-            }
-            return roleSet;
+        for (Long l : roles) {
+            roleSet.add(new Role(l));
+        }
+        return roleSet;
     }
 }
